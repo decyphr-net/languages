@@ -1,5 +1,5 @@
 pub mod controllers;
-mod entities;
+pub mod entities;
 mod managers;
 mod repositories;
 mod queries;

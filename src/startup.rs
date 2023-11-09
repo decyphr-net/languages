@@ -1,5 +1,6 @@
 use crate::ping::controllers::ping;
 use crate::languages::controllers::get_all_languages;
+use crate::openapi::ApiDoc;
 use crate::settings::{
     DatabaseSettings,
     Settings
@@ -19,6 +20,9 @@ use sqlx::{
     migrate,
     postgres::{PgPool, PgPoolOptions}
 };
+use utoipa_swagger_ui::SwaggerUi;
+use utoipa::OpenApi;
+
 
 pub struct Application {
     port: u16,
@@ -63,9 +67,19 @@ impl Application {
     ) -> Result<Server, Error> {
         let pool = Data::new(db_pool);
 
+        let openapi = ApiDoc::openapi();
+
         let server = HttpServer::new(
             move || {
                 App::new()
+                    .service(
+                        SwaggerUi::new(
+                            "/swagger-ui/{_:.*}"
+                        )
+                        .url(
+                            "/api-docs/openapi.json", openapi.clone()
+                        )
+                    )
                     .service(
                         scope("/api")
                         .service(ping)
