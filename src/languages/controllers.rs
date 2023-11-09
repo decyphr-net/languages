@@ -6,7 +6,7 @@ use tracing::{instrument};
 
 
 #[instrument(name="Getting all languages", skip(db_pool))]
-#[get("/all_languages")]
+#[get("/all")]
 pub async fn get_all_languages(db_pool: Data<PgPool>) -> HttpResponse {
     let manager = LanguageManager {
         db_pool: db_pool.clone(),

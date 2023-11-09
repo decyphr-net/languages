@@ -8,7 +8,7 @@ use actix_web::{
     App,
     dev::Server,
     HttpServer,
-    web::Data
+    web::{Data, scope}
 };
 use std::{
     io::Error,
@@ -66,8 +66,13 @@ impl Application {
         let server = HttpServer::new(
             move || {
                 App::new()
-                    .service(ping)
-                    .service(get_all_languages)
+                    .service(
+                        scope("/api")
+                        .service(ping)
+                        .service(
+                            scope("/languages").service(get_all_languages)
+                        )
+                    )
                     .app_data(pool.clone())
             }
         )
