@@ -16,7 +16,7 @@ use utoipa::path as openapi_path;
         tag = "Get all languages endpoint",
         responses(
             (
-                status = 200, 
+                status = 200,
                 description = "Get all of the supported lanugages",
                 body = Vec<Language>,
             ),

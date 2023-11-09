@@ -8,6 +8,7 @@ use uuid::Uuid;
 pub struct Language {
     pub uuid: Uuid,
     pub name: String,
+    pub local_name: String,
     pub code: String,
     pub short_code: String,
     pub description: String,
